@@ -1,0 +1,33 @@
+---
+const { buttonClass } = Astro.props;
+---
+
+<button class={buttonClass}>
+  <slot />
+</button>
+
+
+<style>
+  button {
+    border: 0;
+    background-color: #d4d0c8;
+    margin: 0;
+    padding: 0;
+    box-shadow: inset -1px -1px 0px 0px #404040, inset 1px 1px 0px 0px #ffffff, inset -2px -2px 0px 0px #808080, inset 2px 2px 0px 0px #eceae7;
+    cursor: pointer;
+
+    &:active {
+      box-shadow: inset -1px -1px 0px 0px #ffffff, inset 1px 1px 0px 0px #404040, inset -2px -2px 0px 0px #eceae7, inset 2px 2px 0px 0px #808080;
+    }
+
+    &:focus {
+      outline: 1px solid black;
+    }
+  }
+
+  .bar-button {
+    height: 24px;
+    width: 24px;
+    font-size: 18px;
+  }
+</style>

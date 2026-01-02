@@ -1,0 +1,64 @@
+---
+const HEADER_HEIGHT = '30px';
+const OPTION_BAR_HEIGHT = '30px';
+const WINDOW_PADDING = '3px';
+
+const { width = '600px', height = '400px', title, backgroundColor = 'white' } = Astro.props;
+
+import Button from "./Button.astro";
+---
+
+<article class="window">
+  <hgroup>
+    <h1>{title ? title : 'Window'}</h1>
+    <Button buttonClass="bar-button"> X </Button>
+  </hgroup>
+
+  <article class="window-content">
+    <slot />
+  </article>
+</article>
+
+
+<style
+  define:vars={{ 
+    width, 
+    height, 
+    OPTION_BAR_HEIGHT,
+    WINDOW_PADDING,
+    HEADER_HEIGHT,
+    backgroundColor,
+  }}
+>
+
+  hgroup {
+    width: calc(100% - 20px);
+    height: var(--HEADER_HEIGHT);
+    background-color: salmon;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .window {
+    width: var(--width);
+    height: var(--height);
+    background-color: #d4d0c8;
+    padding: var(--WINDOW_PADDING);
+    position: relative;
+
+    box-shadow: inset -1px -1px 0px 0px #404040, inset 1px 1px 0px 0px #eceae7, inset -2px -2px 0px 0px #808080, inset 2px 2px 0px 0px #ffffff;
+  }
+
+  .window-content {
+    background-color: var(--backgroundColor);
+    height: calc(100% - var(--OPTION_BAR_HEIGHT) - var(--HEADER_HEIGHT));
+    width: calc(100% - 2 * var(--WINDOW_PADDING));
+    position: absolute;
+    bottom: var(--WINDOW_PADDING);
+
+    box-shadow: inset -1px -1px 0px 0px #ffffff,inset 1px 1px 0px 0px #808080,inset -2px -2px 0px 0px #eceae7,inset 2px 2px 0px 0px #404040;
+  }
+</style>

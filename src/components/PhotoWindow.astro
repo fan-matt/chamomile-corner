@@ -1,0 +1,35 @@
+---
+import Window from "./Window.astro";
+
+const { width, height, title, src, alt } = Astro.props;
+
+const IMAGE_PADDING = '10px';
+---
+
+<Window
+  width={width} height={height} title={title} backgroundColor="black"
+>
+  <picture>
+    <img src={src} alt={alt} />
+  </picture>
+</Window>
+
+
+<style
+  define:vars={{
+    IMAGE_PADDING
+  }}
+>
+  picture {
+    display: block;
+    width: calc(100% - 2 * var(--IMAGE_PADDING));
+    height: calc(100% - 2 * var(--IMAGE_PADDING));
+    padding: var(--IMAGE_PADDING);
+  }
+
+  img {
+    object-fit: scale-down;
+    width: 100%;
+    height: 100%;
+  }
+</style>
