@@ -1,37 +1,59 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import DesktopLayout from '../layouts/DesktopLayout.astro';
 
 import Window from '../components/Window.astro';
 import PhotoWindow from '../components/PhotoWindow.astro';
+import CatPhotoWindow from '../components/CatPhotoWindow.astro';
+import WebMusicWindow from '../components/WebMusicWindow.astro';
+import HelpWindow from '../components/HelpWindow.astro';
 import ginger0 from '../assets/cats/ginger0.jpg';
 import wally0 from '../assets/cats/wally0.jpg';
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<!-- <Welcome /> -->
-	 <h1> Hello!! </h1>
+<DesktopLayout>
+	<!-- <Window
+	width="500px"
+	height="500px"
+	title="My Window"
+	>
+	Hello!
+	</Window> -->
 
-	 <Window
-	 	width="500px"
-		height="500px"
-		title="My Window"
-	 >
-		Hello!
-	 </Window>
-
-	 <PhotoWindow
-	 	src={ginger0.src}
+	<CatPhotoWindow
+		id="cat-window"
+		src={ginger0.src}
 		alt="Ginger cat"
-		title="ginger0.jpg"
+		title="ginger.jpg"
 		height="600px"
-	 />
-	 
-	 <PhotoWindow
-		 src={wally0.src}
+	/>
+	
+	<CatPhotoWindow
+		id="cat-window1"
+		src={wally0.src}
 		alt="Wally cat"
-		title="wally0.jpg"
+		title="wally.jpg"
 		height="600px"
-	 />
-	</Layout>
+	/>
+
+	<WebMusicWindow 
+		id="music-window"
+		title="Song of the Temporal Unit - The Internet"
+	/>
+
+	<HelpWindow
+		id="help-window"
+		width="500px"
+		height="400px"
+	/>
+
+</DesktopLayout>
+
+<script>
+	const helpWindow = document.getElementById('help-window') as HTMLElement;
+	helpWindow!.style.display = 'block';
+	helpWindow!.style.top = `calc(50vh - 200px)`;
+	helpWindow!.style.right = '10%';
+</script>

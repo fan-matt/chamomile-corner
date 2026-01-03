@@ -1,0 +1,39 @@
+---
+import PhotoWindow from "./PhotoWindow.astro";
+import Button from "./Button.astro";
+
+const { id, width, height, title, src, alt } = Astro.props;
+---
+
+
+<PhotoWindow
+  id={id} width={width} height={height} title={title} src={src} alt={alt}
+>
+  <span>
+    <Button buttonClass="ui-button pet-button"> Pet </Button>
+    <Button buttonClass="ui-button praise-button"> Praise </Button>
+  </span>
+</PhotoWindow>
+
+<script>
+  const praiseButtons = document.getElementsByClassName('praise-button') as HTMLCollectionOf<HTMLElement>;
+
+  for(const button of praiseButtons) {
+    const winName = button.closest('.window')?.querySelector('.window-name') as HTMLElement;
+    button.addEventListener('click', () => {
+      if(!winName.textContent.includes('Happy!'))
+        winName.textContent = '[Happy! (⁠ ⁠◜⁠‿⁠◝⁠ ⁠)⁠♡ ] ' + winName.textContent;
+    });
+  }
+
+  const petButtons = document.getElementsByClassName('pet-button') as HTMLCollectionOf<HTMLElement>;
+
+  for(const button of petButtons) {
+    const winContent = button.closest('.window')?.querySelector('.window-content') as HTMLElement;
+    button.addEventListener('click', () => {
+      if(!winContent.className.includes('rainbow-window'))
+        winContent.className += ' rainbow-window'
+    });
+
+  }
+</script>

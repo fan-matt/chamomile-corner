@@ -1,0 +1,56 @@
+---
+import Window from "./Window.astro";
+
+import world from './../assets/icons/world.ico';
+
+const { id, width, height } = Astro.props;
+---
+
+
+<Window
+  id={id} width={width} height={height} title='Help'
+>
+  <div>
+    <h1> Hi, Welcome! </h1>
+
+    <p>
+      This site was made to look and feel like an old operating system many of you will be familiar with.
+      To help you get started, try:
+    </p>
+
+    <ul>
+      <li> Opening the desktop shortcuts on the left </li>
+      <li> Dragging the windows around </li>
+      <li> Clicking buttons </li>
+    </ul>
+
+    <p> That's it! Explore and enjoy! </p>
+
+    <img src={world} alt="Icon of the Earth" />
+  </div>
+</Window>
+
+<style>
+  div {
+    padding: 15px;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 25px;
+    margin-bottom: 25px;
+  }
+
+  p, ul {
+    margin-bottom: 25px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style-type: disc;
+    position: relative;
+    left: 30px;
+  }
+</style>

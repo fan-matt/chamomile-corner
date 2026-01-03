@@ -1,0 +1,85 @@
+---
+import Shortcuts from "./Shortcuts.astro"
+---
+
+<canvas id="canvas">
+  Uh oh
+</canvas>
+
+<Shortcuts />
+
+<script>
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d');
+
+  let winWidth: number;
+  let winHeight: number;
+
+  setSizes();
+
+  let hLineProgress = 0;
+  let vLineProgress = 0;
+
+  function draw() {
+    const spacing = 100;
+
+    ctx!.strokeStyle = '#bbbbbb';
+
+    const DRAW_SPEED = 10;
+
+    // horizontal lines
+    const nHLines = winHeight / spacing;
+    for(let i = 1; i < nHLines; i ++) {
+      const lineY = i * spacing;
+
+      ctx?.moveTo(hLineProgress, lineY);
+      ctx?.lineTo(hLineProgress + DRAW_SPEED, lineY);
+      ctx?.stroke();
+    }
+
+    // vertical lines
+    const nVLines = winWidth / spacing;
+    for(let i = 1; i < nVLines; i ++) {
+      const lineX = i * spacing;
+
+      ctx?.moveTo(lineX, vLineProgress + DRAW_SPEED);
+      ctx?.lineTo(lineX, vLineProgress);
+      ctx?.stroke();
+    }
+
+    hLineProgress += DRAW_SPEED;
+    vLineProgress += DRAW_SPEED;
+
+    if(hLineProgress < winWidth || vLineProgress < winHeight)
+      window.requestAnimationFrame(draw);
+  }
+
+  function setSizes() {
+    winWidth = window.innerWidth;
+    winHeight = window.innerHeight;
+    canvas.width = winWidth;
+    canvas.height = winHeight;
+  }
+
+  function redraw() {
+    console.log('redraw');
+    setSizes();
+    ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    hLineProgress = 0;
+    vLineProgress = 0;
+    draw();
+  }
+
+  window.requestAnimationFrame(draw);
+  window.addEventListener('resize', redraw);
+</script>
+
+<style>
+  canvas {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    image-rendering: pixelated;
+  }
+</style>

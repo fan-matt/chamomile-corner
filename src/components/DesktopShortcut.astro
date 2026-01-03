@@ -1,0 +1,100 @@
+---
+const { id, src, alt, name } = Astro.props;
+---
+
+
+<figure id={id} class="desktop-shortcuts">
+  <img src={src} alt={alt} />
+
+  <figcaption> {name} </figcaption>
+</figure>
+
+
+<script>
+  const shortcuts = document.getElementsByClassName('desktop-shortcuts') as HTMLCollectionOf<HTMLElement>;
+
+  function openWindow(shortcut: HTMLElement) {
+    shortcut.className = 'desktop-shortcuts';
+
+    let windowToOpen: HTMLElement;
+    const id = shortcut.id;
+    switch(id) {
+      case 'cat-short':
+        windowToOpen = document.getElementById('cat-window')!;
+        break;
+      
+      case 'cat-short1':
+        windowToOpen = document.getElementById('cat-window1')!;
+        break;
+      
+      case 'playing-short':
+        windowToOpen = document.getElementById('music-window')!;
+        break;
+      
+      case 'help-short':
+        windowToOpen = document.getElementById('help-window')!;
+        break;
+    }
+
+    windowToOpen!.style.display = 'block';
+    windowToOpen!.style.zIndex = '10';
+  }
+
+  window.addEventListener('keypress', (e) => {
+    if(e.key !== 'Enter') return;
+
+    const selectedShortcut = document.getElementsByClassName('shortcut-selected')[0] as HTMLElement;
+    openWindow(selectedShortcut);
+  })
+
+  for(const s of shortcuts) {
+    s.addEventListener('click', () => {
+      // First unselect every other shortcut
+      for(const sc of shortcuts) {
+        sc.className = 'desktop-shortcuts';
+      }
+
+      s.className += ' shortcut-selected'
+    });
+
+
+    s.addEventListener('dblclick', () => {
+      openWindow(s);
+    })
+
+    
+  }
+</script>
+
+
+<style>
+  figure {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 2;
+    position: relative;
+  }
+
+  .shortcut-selected::before {
+    content: "";
+    position: absolute;
+    width: calc(100% - 10px);
+    height: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 255, .3);
+  }
+
+  figcaption {
+    text-align: center;
+  }
+
+  img {
+    width: 50px;
+    height:  50px;
+  }
+</style>

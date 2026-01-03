@@ -1,29 +1,37 @@
 ---
 import Window from "./Window.astro";
 
-const { width, height, title, src, alt } = Astro.props;
+const { id, width, height, title, src, alt } = Astro.props;
 
 const IMAGE_PADDING = '10px';
+const BUTTON_ROW_HEIGHT = '40px';
+const BUTTON_ROW_PADDING = '2px';
 ---
 
 <Window
-  width={width} height={height} title={title} backgroundColor="black"
+  id={id} width={width} height={height} title={`${title} - Photos`} backgroundColor="black"
 >
   <picture>
     <img src={src} alt={alt} />
   </picture>
+
+  <section id="button-row">
+    <slot />
+  </section>
 </Window>
 
 
 <style
   define:vars={{
-    IMAGE_PADDING
+    IMAGE_PADDING,
+    BUTTON_ROW_HEIGHT,
+    BUTTON_ROW_PADDING,
   }}
 >
   picture {
     display: block;
     width: calc(100% - 2 * var(--IMAGE_PADDING));
-    height: calc(100% - 2 * var(--IMAGE_PADDING));
+    height: calc(100% - 2 * var(--IMAGE_PADDING) - var(--BUTTON_ROW_HEIGHT));
     padding: var(--IMAGE_PADDING);
   }
 
@@ -31,5 +39,17 @@ const IMAGE_PADDING = '10px';
     object-fit: scale-down;
     width: 100%;
     height: 100%;
+  }
+
+  #button-row {
+    height: calc(var(--BUTTON_ROW_HEIGHT) - 2 * var(--BUTTON_ROW_PADDING));
+    width: calc(100% - 2 * var(--BUTTON_ROW_PADDING));
+    background-color: #d4d0c8;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--BUTTON_ROW_PADDING);
+    box-shadow: 0 0 0 0, 0 0 0 0, 0 0 0 0, inset 0 2px 0 0 #ffffff;
   }
 </style>

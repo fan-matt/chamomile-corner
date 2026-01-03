@@ -3,15 +3,15 @@ const HEADER_HEIGHT = '30px';
 const OPTION_BAR_HEIGHT = '30px';
 const WINDOW_PADDING = '3px';
 
-const { width = '600px', height = '400px', title, backgroundColor = 'white' } = Astro.props;
+const { id, width = '600px', height = '400px', title, backgroundColor = 'white' } = Astro.props;
 
 import Button from "./Button.astro";
 ---
 
-<article class="window">
-  <hgroup>
-    <h1>{title ? title : 'Window'}</h1>
-    <Button buttonClass="bar-button"> X </Button>
+<article id={id} class="window">
+  <hgroup class="window-bar">
+    <h1 class="window-name">{title ? title : 'Window'}</h1>
+    <Button buttonClass="bar-button close-button"> X </Button>
   </hgroup>
 
   <article class="window-content">
@@ -19,6 +19,50 @@ import Button from "./Button.astro";
   </article>
 </article>
 
+
+<script>
+  let dragging = false;
+  let mouseOverClose = false;
+  let barX = 0;
+  let barY = 0;
+  let win: HTMLElement;
+
+  window.addEventListener('mousemove', (e) => {
+    if(!dragging) return;
+    win.style.top = `${e.y - barY}px`;
+    win.style.left = `${e.x - barX}px`;
+  });
+
+  const closeButtons = document.getElementsByClassName('close-button') as HTMLCollectionOf<HTMLElement>;
+  for(const button of closeButtons) {
+    const win = button.closest('.window') as HTMLElement;
+    button.addEventListener('click', () => win.style.display='none');
+    button.addEventListener('mouseenter', () => mouseOverClose = true);
+    button.addEventListener('mouseleave', () => mouseOverClose = false);
+  }
+
+  const windowBars = document.getElementsByClassName('window-bar') as HTMLCollectionOf<HTMLElement>;
+  for(const bar of windowBars) {
+    bar.addEventListener('mousedown', (e) => {
+      barX = e.offsetX;
+      barY = e.offsetY;
+      dragging = true && (!mouseOverClose);
+      win = bar.closest('.window') as HTMLElement;
+
+      // z-indexing
+      const windows = document.getElementsByClassName('window') as HTMLCollectionOf<HTMLElement>;
+      for(const w of windows)
+        w.style.zIndex = '2';
+
+      win.style.zIndex = '10';
+    });
+
+    bar.addEventListener('mouseup', () => {
+      dragging = false;
+    });
+  }
+
+</script>
 
 <style
   define:vars={{ 
@@ -43,13 +87,15 @@ import Button from "./Button.astro";
   }
 
   .window {
+    display: none;
     width: var(--width);
     height: var(--height);
     background-color: #d4d0c8;
     padding: var(--WINDOW_PADDING);
-    position: relative;
+    position: absolute;
 
     box-shadow: inset -1px -1px 0px 0px #404040, inset 1px 1px 0px 0px #eceae7, inset -2px -2px 0px 0px #808080, inset 2px 2px 0px 0px #ffffff;
+    z-index: 3;
   }
 
   .window-content {
@@ -60,5 +106,14 @@ import Button from "./Button.astro";
     bottom: var(--WINDOW_PADDING);
 
     box-shadow: inset -1px -1px 0px 0px #ffffff,inset 1px 1px 0px 0px #808080,inset -2px -2px 0px 0px #eceae7,inset 2px 2px 0px 0px #404040;
+  }
+
+  .rainbow-window {
+    background: linear-gradient(rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%) 0 0/100% 200%;
+    animation: rainbow 2s linear infinite;
+  }
+
+  @keyframes rainbow {
+    to {background-position: 0 -200%}
   }
 </style>

@@ -1,0 +1,68 @@
+---
+import Window from "./Window.astro";
+
+const { id, width, height, title } = Astro.props;
+---
+
+
+<Window
+  id={id}
+  width={width}
+  height={height}
+  title={title}
+>
+
+  <span id="address-bar">
+    <h1> Address </h1>
+    <p> https://www.youtube.com/watch?v=443NT3fDq7U </p>
+  </span>
+
+  <iframe src="https://www.youtube.com/embed/443NT3fDq7U?si=DEwocgU7-Ivu9rOP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</Window>
+
+
+<style>
+
+  #address-bar {
+    display: flex;
+    flex-direction: row;
+    background-color: #d4d0c8;
+    padding: 3px;
+    gap: 10px;
+    align-items: center;
+    box-shadow: inset -1px -1px 0px 0px #ffffff, inset 1px 1px 0px 0px #404040, inset -2px -2px 0px 0px #eceae7, inset 2px 2px 0px 0px #808080;
+    height: 24px;
+
+    p {
+      background-color: white;
+      flex-grow: 20;
+      padding: 4px;
+      box-shadow: inset -1px -1px 0px 0px #ffffff, inset 1px 1px 0px 0px #404040, inset -2px -2px 0px 0px #eceae7, inset 2px 2px 0px 0px #808080;
+      cursor: text;
+    }
+
+    h1 {
+      /* border-left: 3px solid white; */
+      height: 25px;
+      line-height: 25px;
+      position: relative;
+      padding-left: 8px;
+
+      &::before {
+        content: "";
+        background-color: white;
+        box-shadow: inset -1px -1px 0px 0px #ffffff,inset -2px -2px 0px 0px #808080,inset 1px 1px 0px 0px #808080,inset 2px 2px 0px 0px #ffffff;
+        position: absolute;
+        left: 0;
+
+        height: 100%;
+        width: 4px;
+      }
+    }
+  }
+
+  iframe {
+    width: 100%;
+    height: calc(100% - 32px);
+  }
+</style>

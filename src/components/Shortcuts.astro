@@ -1,0 +1,64 @@
+---
+import DesktopShortcut from "./DesktopShortcut.astro";
+
+import audio from '../assets/icons/cd_audio_cd_a.ico';
+import image from '../assets/icons/kodak_imaging.ico';
+import user from '../assets/icons/user_card.ico';
+import piano from '../assets/icons/keyboard_musical.ico';
+import help from '../assets/icons/help_book_cool.ico';
+---
+
+
+<nav>
+  <DesktopShortcut
+    id="about-short"
+    src={user}
+    alt="User Icon"
+    name="About Me"
+  />
+  <DesktopShortcut
+    id="cat-short"
+    src={image}
+    alt="Photo Icon"
+    name="Cat Photo"
+  />
+  <DesktopShortcut
+    id="cat-short1"
+    src={image}
+    alt="Photo Icon"
+    name="Cat Photo(1)"
+  />
+  <DesktopShortcut
+    id="piano-short"
+    src={piano}
+    alt="Photo Icon"
+    name="Piano"
+  />
+  <DesktopShortcut
+    id="playing-short"
+    src={audio}
+    alt="Photo Icon"
+    name="Currently Playing"
+  />
+  <DesktopShortcut
+    id="help-short"
+    src={help}
+    alt="Photo Icon"
+    name="Help"
+  />
+</nav>
+
+
+<style>
+  nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: fit-content;
+    gap: 20px;
+
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+</style>
