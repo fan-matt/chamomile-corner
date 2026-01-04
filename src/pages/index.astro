@@ -4,6 +4,7 @@ import DesktopLayout from '../layouts/DesktopLayout.astro';
 
 import Window from '../components/Window.astro';
 import PhotoWindow from '../components/PhotoWindow.astro';
+import AboutWindow from '../components/AboutWindow.astro';
 import CatPhotoWindow from '../components/CatPhotoWindow.astro';
 import WebMusicWindow from '../components/WebMusicWindow.astro';
 import HelpWindow from '../components/HelpWindow.astro';
@@ -21,6 +22,12 @@ import wally0 from '../assets/cats/wally0.jpg';
 	>
 	Hello!
 	</Window> -->
+
+	<AboutWindow
+		id="about-window"
+		width="600px"
+		height="800px"
+	/>
 
 	<CatPhotoWindow
 		id="cat-window"
@@ -56,4 +63,9 @@ import wally0 from '../assets/cats/wally0.jpg';
 	helpWindow!.style.display = 'block';
 	helpWindow!.style.top = `calc(50vh - 200px)`;
 	helpWindow!.style.right = '10%';
+
+	const aboutWindow = document.getElementById('about-window') as HTMLElement;
+	aboutWindow!.style.display = 'block';
+	aboutWindow!.style.top = `calc(50vh - 400px)`;
+	aboutWindow!.style.right = 'calc(10% + 550px)';
 </script>

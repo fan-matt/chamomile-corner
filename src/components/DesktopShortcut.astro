@@ -19,6 +19,10 @@ const { id, src, alt, name } = Astro.props;
     let windowToOpen: HTMLElement;
     const id = shortcut.id;
     switch(id) {
+      case 'about-short':
+        windowToOpen = document.getElementById('about-window')!;
+        break;
+
       case 'cat-short':
         windowToOpen = document.getElementById('cat-window')!;
         break;

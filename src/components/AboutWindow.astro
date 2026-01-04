@@ -1,0 +1,72 @@
+---
+import Window from "./Window.astro";
+
+const { id, width, height } = Astro.props;
+---
+
+
+<Window
+  id={id} width={width} height={height} title='About Me'
+>
+  <div>
+    <h1> Hi, Welcome To Chamomile Corner! </h1>
+
+    <p> This site is my attempt to carve out a corner of the internet. </p>
+
+    <h2> Why Is This Here? </h2>
+
+    <p> 
+      I miss the days of the "old internet", one where things seemed a lot more fun and exploratory. 
+      That is thematically reflected by the design language of the site.
+      Perhaps I've grown tired of content pushing and the pervasiveness of advertisements, perhaps I'm worried about how increasingly centralized our digital lives have become, or perhaps I'm just getting older.
+      Or maybe I'm not quite sure how to form my feelings into words yet. Either way, it felt like the right thing to do.
+    </p>
+    
+    <h2> Why Chamomile? </h2>
+    
+    <p>
+      I think it's yummy. Although honestly, my favorite tea is chrysanthemum. It's just a lot to type out and say aloud, you know?
+    </p>
+    
+    <h2> Technical </h2>
+    
+    <p>
+      Made with astro.build, and a whole lot of vanilla flavored JavaScript. Both cats helped in small, but notable amounts. Dependency supply chain aside, 100% human made.
+    </p>
+    
+    <h2> Keep Your Human Spirit </h2>
+
+    <p>
+      I hope you have fun here- it was certainly a lot of fun to develop this site. Click around, move things, and explore.
+    </p>
+  </div>
+</Window>
+
+
+<style>
+  div {
+    padding: 15px;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 25px;
+    margin-bottom: 25px;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+
+  p {
+    margin-bottom: 50px;
+    line-height: 20px;
+  }
+
+  em {
+    font-style: italic;
+    font-weight: bold;
+  }
+</style>
