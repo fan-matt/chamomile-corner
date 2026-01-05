@@ -1,0 +1,230 @@
+---
+import Window from "./Window.astro";
+import Button from "./Button.astro";
+
+import play from './../assets/icons/play.png';
+import pause from './../assets/icons/pause.png';
+import stop from './../assets/icons/stop.png';
+import ff from './../assets/icons/ff.png';
+import skip from './../assets/icons/skip.png';
+import eject from './../assets/icons/eject.png';
+
+import music from './../assets/audio/clairdelune.flac';
+
+const { id, width, height } = Astro.props;
+---
+
+
+<Window
+  id={id}
+  width={width}
+  height={height}
+  title='CD Player'
+>
+  <div id="cd-player-full">
+    <audio id="audio" src={music}></audio>
+
+
+    <div id="cd-player-internal">
+      <div id="cd-player-top">
+        <time>
+          <span>[01] <span class="cd-track-time">00:00</span></span>
+        </time>
+      
+        <div id="cd-player-controls">
+          <div id="cd-player-top-controls">
+            <Button id="cd-play" buttonClass="play-button"> <img src={play.src} alt="" style="height: 15px; transform: rotate(90deg);" /> </Button>
+            <Button id="cd-pause" buttonClass="media-button"> <img src={pause.src} alt="" style="height: 15px" /> </Button>
+            <Button id="cd-stop" buttonClass="media-button"> <img src={stop.src} alt="" style="height: 15px" /> </Button>
+          </div>
+
+          <div id="cd-player-bottom-controls">
+            <Button id="cd-skip-back" buttonClass="media-button"> <img src={skip.src} alt="" style="height: 15px; transform: rotate(180deg);" /> </Button>
+            <Button id="cd-ff-back" buttonClass="media-button"> <img src={ff.src} alt="" style="height: 15px; transform: rotate(180deg);" /> </Button>
+            <Button id="cd-ff" buttonClass="media-button"> <img src={ff.src} alt="" style="height: 15px" /> </Button>
+            <Button id="cd-skip" buttonClass="media-button"> <img src={skip.src} alt="" style="height: 15px" /> </Button>
+            <Button id="cd-eject" buttonClass="media-button"> <img src={eject.src} alt="" style="height: 15px" /> </Button>
+          </div>
+        </div>
+      </div>
+    
+      <div id="cd-player-info">
+        <span>
+          <h2> Artist: </h2>
+          <p> Claude Debussy (Performed by Me) </p>
+        </span>
+    
+        <span>
+          <h2> Title: </h2>
+          <p> Clair de Lune </p>
+        </span>
+    
+        <span>
+          <h2> Track: </h2>
+          <p id="cd-track-number"> Track 1 </p>
+        </span>
+      </div>
+    </div>
+  
+    <div id="cd-player-durations">
+      <span class="cd-duration-trackers">
+        <h2> Total Play: </h2>
+        <p> <span id="cd-total-time">00:00</span> m:s </p>
+      </span>
+  
+      <span class="cd-duration-trackers">
+        <h2> Track: </h2>
+        <p> <span class="cd-track-time">00:00</span> m:s </p>
+      </span>
+    </div>
+  </div>
+</Window>
+
+
+<script>
+  let previousAudioTime = 0;
+  let aggregateAudioTime = 0;
+
+  const audio = document.getElementById('audio') as HTMLMediaElement;
+
+  function formatAudioTime(t: number) {
+    const mins = Math.floor(t / 60);
+    const secs = Math.floor(t) % 60;
+    const lead = mins < 10 ? '0' : '';
+    const slead = secs < 10 ? '0' : '';
+
+    console.log(`mins: ${mins}, secs: ${secs}`);
+
+    return `${lead}${mins}:${slead}${secs}`;
+  }
+
+  function stopAudio() {
+    audio.pause();
+    audio.currentTime = 0;
+    aggregateAudioTime = Math.floor(aggregateAudioTime);
+  }
+
+  audio.addEventListener('timeupdate', (e) => {
+    console.log(e);
+    console.log(audio.currentTime);
+
+    const timeElements = document.getElementsByClassName('cd-track-time') as HTMLCollectionOf<HTMLElement>;
+    for(const t of timeElements) {
+      t.textContent = formatAudioTime(audio.currentTime);
+    }
+
+    let timeDifference = audio.currentTime - previousAudioTime;
+    if(timeDifference > 0)
+     aggregateAudioTime += timeDifference;
+
+    previousAudioTime = audio.currentTime;
+
+    document.getElementById('cd-total-time')!.textContent = formatAudioTime(aggregateAudioTime);
+  });
+
+  document.getElementById('cd-play')?.addEventListener('click', () => audio.play());
+  document.getElementById('cd-pause')?.addEventListener('click', () => audio.pause());
+  document.getElementById('cd-stop')?.addEventListener('click', stopAudio);
+  document.getElementById('cd-skip-back')?.addEventListener('click', stopAudio);
+  document.getElementById('cd-skip')?.addEventListener('click', stopAudio);
+  document.getElementById('cd-ff-back')?.addEventListener('click', () => {
+    audio.currentTime -= 10;
+    if(audio.currentTime < 0) audio.currentTime = 0;
+  });
+  document.getElementById('cd-ff')?.addEventListener('click', () => {
+    audio.currentTime += 10;
+    if(audio.currentTime > audio.duration) audio.currentTime = audio.duration;
+
+    previousAudioTime = audio.currentTime;
+  });
+  document.getElementById('cd-eject')?.addEventListener('click', () => {
+    window.open('https://www.youtube.com/watch?v=L9DB1wfxKgg');
+  });
+</script>
+
+
+<style>
+  #cd-player-full {
+    background-color: #d4d0c8;
+    height: calc(100%);
+  }
+
+  #cd-player-internal {
+    padding: 0 15px;
+    width: calc(100% - 30px);
+  }
+
+  #cd-player-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    height: 60px;
+    /* align-items: center;
+    justify-content: center; */
+
+    margin-bottom: 15px;
+
+    time {
+      background-color: black;
+      color: goldenrod;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 2;
+      font-size: 24px;
+      box-shadow: inset -1px -1px 0px 0px #ffffff,inset 1px 1px 0px 0px #808080,inset -2px -2px 0px 0px #eceae7,inset 2px 2px 0px 0px #404040;
+    }
+  }
+
+  #cd-player-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    div {
+      display: flex;
+    }
+  }
+
+  #cd-player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+
+    span {
+      display: flex;
+      gap: 10px; 
+
+      h2 {
+        height: 25px;
+        line-height: 25px;
+        width: 50px;
+        text-align: right;
+      }
+
+      p {
+        background-color: white;
+        flex-grow: 20;
+        padding: 4px;
+        box-shadow: inset -1px -1px 0px 0px #ffffff, inset 1px 1px 0px 0px #404040, inset -2px -2px 0px 0px #eceae7, inset 2px 2px 0px 0px #808080;
+        cursor: text;
+      }
+    }
+  }
+
+  #cd-player-durations {
+    padding: 2px;
+    width: calc(100% - 4px);
+    display: flex;
+    justify-content: space-between;
+
+    .cd-duration-trackers {
+      display: flex;
+      gap: 5px;
+      padding: 5px;
+      box-shadow: inset -1px -1px 0px 0px #ffffff,inset 1px 1px 0px 0px #808080,inset -2px -2px 0px 0px #eceae7,inset 2px 2px 0px 0px #404040;
+      width: calc(50% - 12px);
+    }
+  }
+</style>

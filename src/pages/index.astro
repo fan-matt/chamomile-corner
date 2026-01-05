@@ -6,6 +6,7 @@ import Window from '../components/Window.astro';
 import PhotoWindow from '../components/PhotoWindow.astro';
 import AboutWindow from '../components/AboutWindow.astro';
 import CatPhotoWindow from '../components/CatPhotoWindow.astro';
+import CDPlayerWindow from '../components/CDPlayerWindow.astro';
 import WebMusicWindow from '../components/WebMusicWindow.astro';
 import HelpWindow from '../components/HelpWindow.astro';
 import ginger0 from '../assets/cats/ginger0.jpg';
@@ -45,6 +46,12 @@ import wally0 from '../assets/cats/wally0.jpg';
 		height="600px"
 	/>
 
+	<CDPlayerWindow 
+		id="cd-player-window"
+		height="270px"
+		width="400px"
+	/>
+
 	<WebMusicWindow 
 		id="music-window"
 		title="Song of the Temporal Unit - The Internet"
@@ -68,4 +75,10 @@ import wally0 from '../assets/cats/wally0.jpg';
 	aboutWindow!.style.display = 'block';
 	aboutWindow!.style.top = `calc(50vh - 400px)`;
 	aboutWindow!.style.right = 'calc(10% + 550px)';
+
+
+	const cdWindow = document.getElementById('cd-player-window') as HTMLElement;
+	cdWindow!.style.display = 'block';
+
+
 </script>

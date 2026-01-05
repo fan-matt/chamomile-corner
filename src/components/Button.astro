@@ -1,8 +1,8 @@
 ---
-const { buttonClass } = Astro.props;
+const { id, buttonClass } = Astro.props;
 ---
 
-<button class={buttonClass}>
+<button id={id} class={buttonClass}>
   <slot />
 </button>
 
@@ -15,6 +15,9 @@ const { buttonClass } = Astro.props;
     padding: 0;
     box-shadow: inset -1px -1px 0px 0px #404040, inset 1px 1px 0px 0px #ffffff, inset -2px -2px 0px 0px #808080, inset 2px 2px 0px 0px #eceae7;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:active {
       box-shadow: inset -1px -1px 0px 0px #ffffff, inset 1px 1px 0px 0px #404040, inset -2px -2px 0px 0px #eceae7, inset 2px 2px 0px 0px #808080;
@@ -35,5 +38,20 @@ const { buttonClass } = Astro.props;
     /* height: 40px; */
     padding: 5px;
     width: 100px;
+  }
+
+  .play-button {
+    height: 28px;
+    width: 102px;
+  }
+
+  .media-button {
+    height: 28px;
+    width: 34px;
+  }
+
+  img {
+    height: 100%;
+    object-fit: scale-down;
   }
 </style>
