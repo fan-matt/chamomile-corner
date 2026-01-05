@@ -1,5 +1,7 @@
 ---
 const { id, src, alt, name } = Astro.props;
+
+import notify from './../assets/audio/notify.wav'
 ---
 
 
@@ -9,8 +11,11 @@ const { id, src, alt, name } = Astro.props;
   <figcaption> {name} </figcaption>
 </figure>
 
+<audio id="notify-audio" src={notify}></audio>
 
 <script>
+  import { setZLevels } from './../scripts/windowZ.ts';
+
   const shortcuts = document.getElementsByClassName('desktop-shortcuts') as HTMLCollectionOf<HTMLElement>;
 
   function openWindow(shortcut: HTMLElement) {
@@ -31,6 +36,10 @@ const { id, src, alt, name } = Astro.props;
         windowToOpen = document.getElementById('cat-window1')!;
         break;
       
+        case 'piano-short':
+        windowToOpen = document.getElementById('cd-player-window')!;
+        break;
+      
       case 'playing-short':
         windowToOpen = document.getElementById('music-window')!;
         break;
@@ -40,16 +49,25 @@ const { id, src, alt, name } = Astro.props;
         break;
     }
 
-    windowToOpen!.style.display = 'block';
-    windowToOpen!.style.zIndex = '10';
+    const wStyle = windowToOpen!.style;
+
+    if(wStyle.display === 'block') {
+      (document.getElementById('notify-audio') as HTMLMediaElement).play();
+    } else {
+      wStyle.display = 'block';
+      wStyle.top = `calc(50vh - ${windowToOpen!.offsetHeight / 2}px)`;
+      wStyle.left = `calc(50vw - ${windowToOpen!.offsetWidth / 2}px)`;
+    }
+    
+    setZLevels(windowToOpen!);
   }
 
-  window.addEventListener('keypress', (e) => {
+  window.addEventListener('keydown', (e) => {
     if(e.key !== 'Enter') return;
 
     const selectedShortcut = document.getElementsByClassName('shortcut-selected')[0] as HTMLElement;
     openWindow(selectedShortcut);
-  })
+  });
 
   for(const s of shortcuts) {
     s.addEventListener('click', () => {

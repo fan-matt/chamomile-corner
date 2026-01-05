@@ -19,8 +19,9 @@ import Button from "./Button.astro";
   </article>
 </article>
 
-
 <script>
+  import { setZLevels } from './../scripts/windowZ.ts';
+
   let dragging = false;
   let mouseOverClose = false;
   let barX = 0;
@@ -33,10 +34,22 @@ import Button from "./Button.astro";
     win.style.left = `${e.x - barX}px`;
   });
 
+  window.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape')
+      dragging = false;
+  });
+
+  const windows = document.getElementsByClassName('window') as HTMLCollectionOf<HTMLElement>;
+    for(const win of windows) {
+      win.addEventListener('mousedown', () => {
+        setZLevels(win);
+      });
+    }
+
   const closeButtons = document.getElementsByClassName('close-button') as HTMLCollectionOf<HTMLElement>;
   for(const button of closeButtons) {
     const win = button.closest('.window') as HTMLElement;
-    button.addEventListener('click', () => win.style.display='none');
+    button.addEventListener('click', () => {win.style.display='none'; win.style.zIndex = '2';});
     button.addEventListener('mouseenter', () => mouseOverClose = true);
     button.addEventListener('mouseleave', () => mouseOverClose = false);
   }
@@ -48,13 +61,6 @@ import Button from "./Button.astro";
       barY = e.offsetY;
       dragging = true && (!mouseOverClose);
       win = bar.closest('.window') as HTMLElement;
-
-      // z-indexing
-      const windows = document.getElementsByClassName('window') as HTMLCollectionOf<HTMLElement>;
-      for(const w of windows)
-        w.style.zIndex = '2';
-
-      win.style.zIndex = '10';
     });
 
     bar.addEventListener('mouseup', () => {
@@ -84,6 +90,7 @@ import Button from "./Button.astro";
     align-items: center;
     justify-content: space-between;
     padding: 0 10px;
+    user-select: none;
   }
 
   .window {

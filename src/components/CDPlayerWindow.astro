@@ -93,8 +93,6 @@ const { id, width, height } = Astro.props;
     const lead = mins < 10 ? '0' : '';
     const slead = secs < 10 ? '0' : '';
 
-    console.log(`mins: ${mins}, secs: ${secs}`);
-
     return `${lead}${mins}:${slead}${secs}`;
   }
 
@@ -105,9 +103,6 @@ const { id, width, height } = Astro.props;
   }
 
   audio.addEventListener('timeupdate', (e) => {
-    console.log(e);
-    console.log(audio.currentTime);
-
     const timeElements = document.getElementsByClassName('cd-track-time') as HTMLCollectionOf<HTMLElement>;
     for(const t of timeElements) {
       t.textContent = formatAudioTime(audio.currentTime);
